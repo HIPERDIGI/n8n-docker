@@ -1,14 +1,7 @@
-# Usa a imagem oficial do n8n
 FROM docker.n8n.io/n8nio/n8n:latest
 
-# Define timezone como variável de ambiente (pode ser ajustada via painel Render)
-ENV TZ=America/Sao_Paulo
-
-# Expondo porta padrão
-EXPOSE 5678
-
-# Variáveis padrão (podem ser definidas/ajustadas no Render)
-ENV N8N_BASIC_AUTH_ACTIVE=true \
+ENV TZ=America/Sao_Paulo \
+    N8N_BASIC_AUTH_ACTIVE=true \
     N8N_BASIC_AUTH_USER=admin \
     N8N_BASIC_AUTH_PASSWORD=admin \
     N8N_ENCRYPTION_KEY=mysecretkey \
@@ -18,9 +11,10 @@ ENV N8N_BASIC_AUTH_ACTIVE=true \
     DB_POSTGRESDB_DATABASE=n8n_8m76 \
     DB_POSTGRESDB_USER=n8n_8m76_user \
     DB_POSTGRESDB_PASSWORD=dUT8oLog2cvSt0reyKDoRQgjI5WmSZRz \
-    N8N_PORT=5678
+    N8N_PORT=5678 \
+    N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=true
 
-# Workdir padrão já é definido, não sobrescreve arquivos internos do n8n
+EXPOSE 5678
 
-# Usa entrypoint padrão da imagem oficial
 CMD ["n8n"]
+
