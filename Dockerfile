@@ -1,31 +1,26 @@
-FROM node:18-slim
+# Usa a imagem oficial do n8n
+FROM docker.n8n.io/n8nio/n8n:latest
 
-# Define diretório de trabalho
-WORKDIR /usr/local/n8n
+# Define timezone como variável de ambiente (pode ser ajustada via painel Render)
+ENV TZ=America/Sao_Paulo
 
-# Instala dependências do projeto
-COPY package*.json ./
-RUN npm install --legacy-peer-deps && npm cache clean --force
-
-# Copia todos os arquivos do projeto
-COPY . .
-
-# Cria diretório para configurações e arquivos do usuário
-RUN mkdir /root/.n8n && chmod -R 700 /root/.n8n
-
-# Expõe a porta padrão do n8n
+# Expondo porta padrão
 EXPOSE 5678
 
-# Define variáveis padrão (podem ser sobrescritas no Render)
-ENV GENERIC_TIMEZONE="America/Sao_Paulo" \
-    N8N_PORT=5678 \
-    N8N_BASIC_AUTH_ACTIVE=true \
+# Variáveis padrão (podem ser definidas/ajustadas no Render)
+ENV N8N_BASIC_AUTH_ACTIVE=true \
     N8N_BASIC_AUTH_USER=admin \
     N8N_BASIC_AUTH_PASSWORD=admin \
     N8N_ENCRYPTION_KEY=mysecretkey \
     DB_TYPE=postgresdb \
-    DB_POSTGRESDB_PORT=5432
+    DB_POSTGRESDB_HOST=dpg-d0qv73p5pdvs73b03vv0-a \
+    DB_POSTGRESDB_PORT=5432 \
+    DB_POSTGRESDB_DATABASE=n8n_8m76 \
+    DB_POSTGRESDB_USER=n8n_8m76_user \
+    DB_POSTGRESDB_PASSWORD=dUT8oLog2cvSt0reyKDoRQgjI5WmSZRz \
+    N8N_PORT=5678
 
-# Usa o entrypoint
-ENTRYPOINT ["/bin/sh", "-c", "./entrypoint.sh"]
+# Workdir padrão já é definido, não sobrescreve arquivos internos do n8n
 
+# Usa entrypoint padrão da imagem oficial
+CMD ["n8n"]
