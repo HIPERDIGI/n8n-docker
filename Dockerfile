@@ -1,4 +1,4 @@
-FROM n8nio/n8n:latest
+FROM docker.io/n8nio/n8n:latest
 
 ENV TZ=America/Sao_Paulo \
     N8N_BASIC_AUTH_ACTIVE=true \
